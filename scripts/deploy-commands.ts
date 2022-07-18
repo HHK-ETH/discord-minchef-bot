@@ -13,12 +13,14 @@ const commands = [
     .setName('balance')
     .setDescription(
       '/balance <chain | all> (See /chains) => Returns the amount of sushi on the corresponding minichef.'
-    ),
+    )
+    .addStringOption((option) => option.setName('chain').setDescription('Chain name or all').setRequired(true)),
   new SlashCommandBuilder()
     .setName('rewards')
     .setDescription(
       '/rewards <chain | all> (See /chains) => Returns the amount of sushi needed to fullfil users rewards.'
-    ),
+    )
+    .addStringOption((option) => option.setName('chain').setDescription('Chain name or all').setRequired(true)),
   new SlashCommandBuilder()
     .setName('chains')
     .setDescription('Returns the chains available for /balance and /rewards commands.'),
