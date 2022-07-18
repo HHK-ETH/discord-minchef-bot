@@ -11,15 +11,17 @@ if (!token || !clientId) {
 const commands = [
   new SlashCommandBuilder()
     .setName('balance')
-    .setDescription('/balance <chain-name> (See /chains) => return the amount of sushi on the corresponding minichef.'),
+    .setDescription(
+      '/balance <chain | all> (See /chains) => Returns the amount of sushi on the corresponding minichef.'
+    ),
   new SlashCommandBuilder()
     .setName('rewards')
     .setDescription(
-      '/rewards <chain-name> (See /chains) => return the amount of sushi needed to fullfil users rewards.'
+      '/rewards <chain | all> (See /chains) => Returns the amount of sushi needed to fullfil users rewards.'
     ),
   new SlashCommandBuilder()
     .setName('chains')
-    .setDescription('Return the chains available for /balance and /rewards commands.'),
+    .setDescription('Returns the chains available for /balance and /rewards commands.'),
 ].map((command) => command.toJSON());
 
 const rest = new REST({ version: '9' }).setToken(token);
