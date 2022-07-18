@@ -4,11 +4,11 @@ export enum ChainId {
   RINKEBY = 4,
   GÖRLI = 5,
   KOVAN = 42,
-  MATIC = 137,
+  POLYGON = 137,
   MATIC_TESTNET = 80001,
   FANTOM = 250,
   FANTOM_TESTNET = 4002,
-  XDAI = 100,
+  GNOSIS = 100,
   BSC = 56,
   BSC_TESTNET = 97,
   ARBITRUM = 42161,
@@ -35,15 +35,15 @@ export enum ChainId {
   METIS = 1088,
 }
 
-export const SUSHI_ADDRESS = {
+export const SUSHI_ADDRESS: { [chainId: number]: string } = {
   [ChainId.ETHEREUM]: '0x6B3595068778DD592e39A122f4f5a5cF09C90fE2',
   [ChainId.ROPSTEN]: '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F',
   [ChainId.RINKEBY]: '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F',
   [ChainId.GÖRLI]: '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F',
   [ChainId.KOVAN]: '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F',
   [ChainId.FANTOM]: '0xae75A438b2E0cB8Bb01Ec1E1e376De11D44477CC',
-  [ChainId.MATIC]: '0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a',
-  [ChainId.XDAI]: '0x2995D1317DcD4f0aB89f4AE60F3f020A4F17C7CE',
+  [ChainId.POLYGON]: '0x0b3F868E0BE5597D5DB7fEB59E1CADBb0fdDa50a',
+  [ChainId.GNOSIS]: '0x2995D1317DcD4f0aB89f4AE60F3f020A4F17C7CE',
   [ChainId.BSC]: '0x947950BcC74888a40Ffa2593C5798F11Fc9124C4',
   [ChainId.ARBITRUM]: '0xd4d42F0b6DEF4CE0383636770eF773390d85c61A',
   [ChainId.AVALANCHE]: '0x37B608519F91f70F2EeB0e5Ed9AF4061722e4F76',
@@ -61,9 +61,9 @@ export const SUSHI_ADDRESS = {
   [ChainId.KAVA]: '0x7C598c96D02398d89FbCb9d41Eab3DF0C16F227D',
 };
 
-export const RPC = {
-  [ChainId.MATIC]: 'https://polygon-rpc.com',
-  [ChainId.XDAI]: 'https://gnosis.public-rpc.com',
+export const RPC: { [chainId: number]: string } = {
+  [ChainId.POLYGON]: 'https://polygon-rpc.com',
+  [ChainId.GNOSIS]: 'https://gnosis.public-rpc.com',
   [ChainId.HARMONY]: 'https://harmony.public-rpc.com',
   [ChainId.ARBITRUM]: 'https://arbitrum.public-rpc.com',
   [ChainId.CELO]: 'https://forno.celo.org',
@@ -74,9 +74,9 @@ export const RPC = {
   [ChainId.KAVA]: 'https://evm.kava.io',
 };
 
-export const MINICHEF_ADDRESS = {
-  [ChainId.MATIC]: '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F',
-  [ChainId.XDAI]: '0xdDCbf776dF3dE60163066A5ddDF2277cB445E0F3',
+export const MINICHEF_ADDRESS: { [chainId: number]: string } = {
+  [ChainId.POLYGON]: '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F',
+  [ChainId.GNOSIS]: '0xdDCbf776dF3dE60163066A5ddDF2277cB445E0F3',
   [ChainId.HARMONY]: '0x67dA5f2FfaDDfF067AB9d5F025F8810634d84287',
   [ChainId.ARBITRUM]: '0xF4d73326C13a4Fc5FD7A064217e12780e9Bd62c3',
   [ChainId.CELO]: '0x8084936982D089130e001b470eDf58faCA445008',
