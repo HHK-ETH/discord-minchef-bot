@@ -8,9 +8,18 @@ if (!token || !clientId) {
   throw Error('Incomplete env file.');
 }
 
-const commands = [new SlashCommandBuilder().setName('ping').setDescription('Reply with pong!')].map((command) =>
-  command.toJSON()
-);
+const commands = [
+  new SlashCommandBuilder()
+    .setName('balance')
+    .setDescription(
+      '/balance <chain-name> (polygon, gnosis, harmony, arbitrum, celo, moonriver, moonbeam, fuse, fantom, kava) => return the amount of sushi available on the corresponding minichef.'
+    ),
+  new SlashCommandBuilder()
+    .setName('rewards')
+    .setDescription(
+      '/rewards <chain-name> (polygon, gnosis, harmony, arbitrum, celo, moonriver, moonbeam, fuse, fantom, kava) => return the amount of sushi needed to fullfil users rewards.'
+    ),
+].map((command) => command.toJSON());
 
 const rest = new REST({ version: '9' }).setToken(token);
 
