@@ -1,33 +1,57 @@
-import { CacheType, CommandInteraction } from 'discord.js';
+import { CacheType, CommandInteraction, MessageEmbed } from 'discord.js';
 import { ChainId, MINICHEF_ADDRESS } from './constants';
+import { queryAllMinichefSushiBalance, queryMinichefSushiBalance } from './web3';
 
 export async function slashBalance(interaction: CommandInteraction<CacheType>): Promise<void> {
   const chain = interaction.options.getString('chain')?.toUpperCase();
+  //all chains
   if (chain === undefined || chain === 'ALL') {
-    return await interaction.reply({ content: 'ALL BALANCES', ephemeral: true });
+    const amounts = await queryAllMinichefSushiBalance();
+    const msg = new MessageEmbed()
+      .setTitle('Sushi availables')
+      .setDescription('Amount of sushi available on each minichef.');
+    for (const amount of amounts) {
+      if (amount.amount === -1) {
+        msg.addField(amount.label, 'RPC for this chain unreachable, retry later.', false);
+      } else {
+        const text = amount.amount > 1000 ? ' SUSHI' : ' SUSHI <!>LOW<!>';
+        msg.addField(amount.label, amount.amount.toFixed(2) + text, false);
+      }
+    }
+    await interaction.editReply({ embeds: [msg] });
+    return;
   }
+  //chain in particular
   const chainId = ChainId[chain as any];
   if (chainId !== undefined) {
-    return await interaction.reply({ content: MINICHEF_ADDRESS[chainId as any], ephemeral: true });
+    const amount = await queryMinichefSushiBalance(chainId as any);
+    if (amount === -1) {
+      await interaction.editReply({ content: 'RPC for this chain unreachable, retry later.' });
+      return;
+    }
+    const text = amount > 1000 ? ' SUSHI' : ' SUSHI <!>LOW<!>';
+    await interaction.editReply({ content: 'Sushi available on ' + chain + ' minichef: ' + amount.toFixed(2) + text });
+    return;
   }
-  return await interaction.reply({
+  //unknow chain
+  await interaction.editReply({
     content: 'No minichef contract for the chain given, see /chains.',
-    ephemeral: true,
   });
 }
 
 export async function slashRewards(interaction: CommandInteraction<CacheType>): Promise<void> {
   const chain = interaction.options.getString('chain')?.toUpperCase();
   if (chain === undefined || chain === 'ALL') {
-    return await interaction.reply({ content: 'ALL rewards', ephemeral: true });
+    await interaction.editReply({ content: 'ALL rewards' });
+    return;
   }
   const chainId = ChainId[chain as any];
   if (chainId !== undefined) {
-    return await interaction.reply({ content: MINICHEF_ADDRESS[chainId as any], ephemeral: true });
+    await interaction.editReply({ content: MINICHEF_ADDRESS[chainId as any] });
+    return;
   }
-  return await interaction.reply({
+  await interaction.editReply({
     content: 'No minichef contract for the chain given, see /chains.',
-    ephemeral: true,
   });
 }
 
