@@ -20,9 +20,11 @@ client.login(process.env.DISCORD_TOKEN).then(
         return await slashChains(interaction);
       }
       if (commandName === 'balance') {
+        await interaction.deferReply({ ephemeral: true });
         return await slashBalance(interaction);
       }
       if (commandName === 'rewards') {
+        await interaction.deferReply({ ephemeral: true });
         return await slashBalance(interaction);
       }
     });
