@@ -1,14 +1,39 @@
 import dotenv from 'dotenv';
-import { Client, Intents } from 'discord.js';
-import { slashBalance, slashChains, slashRewards } from './src';
+import { Client, Intents, TextChannel } from 'discord.js';
+import { checkBalanceRoutine, slashBalance, slashChains, slashRewards, StorageHelper } from './src';
 dotenv.config();
 
 const client = new Client({ intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS] });
+const storageHelper = StorageHelper.getInstance();
 
 //discord api setup
 client.login(process.env.DISCORD_TOKEN).then(
   async () => {
     if (!process.env.GUILDS || !process.env.CHANNELS) throw Error('.env files missing guild or channel id.');
+
+    const guilds = process.env.GUILDS.split(' ');
+    const channels = process.env.CHANNELS.split(' ');
+    //check channels
+    const textChannels = await Promise.all(
+      guilds.map(async (guildId, index) => {
+        const guild = client.guilds.cache.get(guildId);
+        if (!guild) {
+          throw Error('Impossible to connect to guild: ' + guildId);
+        }
+        const channel = await guild.channels.fetch(channels[index]);
+        if (!channel) {
+          throw Error("Can't connect to this channel.");
+        }
+        const textChannel = await channel.fetch();
+        if (!(textChannel instanceof TextChannel)) {
+          throw Error('This channel is not a text channel.');
+        }
+        return textChannel;
+      })
+    );
+
+    //add routines
+    setInterval(() => checkBalanceRoutine(textChannels, storageHelper), 60_000);
 
     //add commands
     client.on('interactionCreate', async (interaction) => {
@@ -25,7 +50,7 @@ client.login(process.env.DISCORD_TOKEN).then(
       }
       if (commandName === 'rewards') {
         await interaction.deferReply({ ephemeral: true });
-        return await slashBalance(interaction);
+        return await slashRewards(interaction);
       }
     });
   },
