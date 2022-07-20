@@ -14,7 +14,7 @@ export async function queryMinichefSushiBalance(chainId: number): Promise<number
   }
 }
 
-export async function queryAllMinichefSushiBalance(): Promise<any[]> {
+export async function queryAllMinichefSushiBalance(): Promise<{ label: string; amount: number }[]> {
   const amounts = [];
   for (const id in MINICHEF_ADDRESS) {
     const sushiAmount = await queryMinichefSushiBalance(id as any);
