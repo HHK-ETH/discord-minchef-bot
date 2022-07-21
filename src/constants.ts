@@ -1,3 +1,5 @@
+import { gql } from 'graphql-request';
+
 export enum ChainId {
   ETHEREUM = 1,
   ROPSTEN = 3,
@@ -86,3 +88,65 @@ export const MINICHEF_ADDRESS: { [chainId: number]: string } = {
   [ChainId.MOONBEAM]: '0x011E52E4E40CF9498c79273329E8827b21E2e581',
   [ChainId.KAVA]: '0xf731202A3cf7EfA9368C2d7bD613926f7A144dB5',
 };
+
+export const MINICHEF_SUBGRAPH: { [chainId: number]: string } = {
+  [ChainId.POLYGON]: 'https://api.thegraph.com/subgraphs/name/sushiswap/matic-minichef',
+  [ChainId.GNOSIS]: 'https://api.thegraph.com/subgraphs/name/sushiswap/xdai-minichef',
+  [ChainId.HARMONY]: 'https://sushi.graph.t.hmny.io/subgraphs/name/sushiswap/harmony-minichef',
+  [ChainId.ARBITRUM]: 'https://api.thegraph.com/subgraphs/name/sushiswap/arbitrum-minichef',
+  [ChainId.CELO]: 'https://api.thegraph.com/subgraphs/name/sushiswap/celo-minichef-v2',
+  [ChainId.MOONRIVER]: 'https://api.thegraph.com/subgraphs/name/sushiswap/moonriver-minichef',
+  [ChainId.FUSE]: 'https://api.thegraph.com/subgraphs/name/sushiswap/fuse-minichef',
+  [ChainId.FANTOM]: 'https://api.thegraph.com/subgraphs/name/sushiswap/fantom-minichef',
+  [ChainId.MOONBEAM]: 'https://api.thegraph.com/subgraphs/name/sushiswap/moonbeam-minichef',
+  [ChainId.KAVA]: 'https://pvt.graph.kava.io/sushiswap/kava-minichef',
+};
+
+export const MULTICALL: { [chainId: number]: string } = {
+  [ChainId.POLYGON]: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  [ChainId.GNOSIS]: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  [ChainId.HARMONY]: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  [ChainId.ARBITRUM]: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  [ChainId.CELO]: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  [ChainId.MOONRIVER]: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  [ChainId.FUSE]: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  [ChainId.FANTOM]: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  [ChainId.MOONBEAM]: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  [ChainId.KAVA]: '0x30A62aA52Fa099C4B227869EB6aeaDEda054d121',
+};
+
+export const QUERY = gql`
+  query queryUsers($skip1: Int!, $skip2: Int!, $skip3: Int!, $skip4: Int!, $skip5: Int!, $lastId: ID!) {
+    u1: users(skip: $skip1, first: 1000, where: { rewardDebt_gt: 0, id_gt: $lastId }) {
+      address
+      pool {
+        id
+      }
+    }
+    u2: users(skip: $skip2, first: 1000, where: { rewardDebt_gt: 0, id_gt: $lastId }) {
+      address
+      pool {
+        id
+      }
+    }
+    u3: users(skip: $skip3, first: 1000, where: { rewardDebt_gt: 0, id_gt: $lastId }) {
+      address
+      pool {
+        id
+      }
+    }
+    u4: users(skip: $skip4, first: 1000, where: { rewardDebt_gt: 0, id_gt: $lastId }) {
+      address
+      pool {
+        id
+      }
+    }
+    u5: users(skip: $skip5, first: 1000, where: { rewardDebt_gt: 0, id_gt: $lastId }) {
+      id
+      address
+      pool {
+        id
+      }
+    }
+  }
+`;
