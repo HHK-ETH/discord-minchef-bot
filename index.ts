@@ -1,6 +1,13 @@
 import dotenv from 'dotenv';
 import { Client, Intents, TextChannel } from 'discord.js';
-import { checkBalanceRoutine, slashBalance, slashChains, slashRewards, StorageHelper } from './src';
+import {
+  checkBalanceRoutine,
+  slashBalance,
+  slashChains,
+  slashRewards,
+  StorageHelper,
+  fetchPendingSushiRoutine,
+} from './src';
 dotenv.config();
 
 const client = new Client({ intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS] });
@@ -34,6 +41,7 @@ client.login(process.env.DISCORD_TOKEN).then(
 
     //add routines
     setInterval(() => checkBalanceRoutine(textChannels, storageHelper), 60_000);
+    setInterval(() => fetchPendingSushiRoutine(storageHelper), 600_000);
 
     //add commands
     client.on('interactionCreate', async (interaction) => {
@@ -50,7 +58,7 @@ client.login(process.env.DISCORD_TOKEN).then(
       }
       if (commandName === 'rewards') {
         await interaction.deferReply({ ephemeral: true });
-        return await slashRewards(interaction);
+        return await slashRewards(interaction, storageHelper);
       }
     });
   },

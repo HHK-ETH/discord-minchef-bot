@@ -1,5 +1,6 @@
 import { CacheType, CommandInteraction, MessageEmbed } from 'discord.js';
 import { ChainId, MINICHEF_ADDRESS } from './constants';
+import StorageHelper from './storageHelper';
 import { queryAllMinichefSushiBalance, queryMinichefSushiBalance } from './web3';
 
 export async function slashBalance(interaction: CommandInteraction<CacheType>): Promise<void> {
@@ -39,15 +40,33 @@ export async function slashBalance(interaction: CommandInteraction<CacheType>): 
   });
 }
 
-export async function slashRewards(interaction: CommandInteraction<CacheType>): Promise<void> {
+export async function slashRewards(
+  interaction: CommandInteraction<CacheType>,
+  storageHelper: StorageHelper
+): Promise<void> {
+  const storage = await storageHelper.read();
   const chain = interaction.options.getString('chain')?.toUpperCase();
   if (chain === undefined || chain === 'ALL') {
-    await interaction.editReply({ content: 'ALL rewards' });
+    const msg = new MessageEmbed()
+      .setTitle('Sushi Rewards')
+      .setDescription('Amount of sushi claimable on each minichef.');
+    for (const chainId in MINICHEF_ADDRESS) {
+      const label = ChainId[chainId as any];
+      const data = storage[label];
+      const text = data.amount > data.rewards ? ' SUSHI' : ' SUSHI <!>Current balance inferior<!>';
+      msg.addField(label, data.rewards.toFixed(2) + text, false);
+    }
+    await interaction.editReply({ embeds: [msg] });
     return;
   }
   const chainId = ChainId[chain as any];
   if (chainId !== undefined) {
-    await interaction.editReply({ content: MINICHEF_ADDRESS[chainId as any] });
+    const label = ChainId[chainId as any];
+    const data = storage[label];
+    const text = data.amount > data.rewards ? ' SUSHI' : ' SUSHI <!>Current balance inferior<!>';
+    await interaction.editReply({
+      content: 'Sushi claimable on ' + chain + ' minichef: ' + data.rewards.toFixed(2) + text,
+    });
     return;
   }
   await interaction.editReply({
