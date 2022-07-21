@@ -1,8 +1,9 @@
 import { TextChannel } from 'discord.js';
+import { ChainId, MINICHEF_ADDRESS } from './constants';
 import StorageHelper from './storageHelper';
-import { queryAllMinichefSushiBalance } from './web3';
+import { fetchTheGraphUsers, queryAllMinichefSushiBalance, queryMinichefRewards } from './web3';
 
-export async function checkBalanceRoutine(textChannels: TextChannel[], storageHelper: StorageHelper) {
+export async function checkBalanceRoutine(textChannels: TextChannel[], storageHelper: StorageHelper): Promise<void> {
   const balances = await queryAllMinichefSushiBalance();
   const storage = await storageHelper.read();
   for (const balance of balances) {
@@ -27,4 +28,18 @@ export async function checkBalanceRoutine(textChannels: TextChannel[], storageHe
     }
   }
   storageHelper.write(storage);
+}
+
+export async function fetchPendingSushiRoutine(storageHelper: StorageHelper): Promise<void> {
+  const memory: any = {};
+  for (const chainId in MINICHEF_ADDRESS) {
+    const users = await fetchTheGraphUsers(chainId as any);
+    const rewards = await queryMinichefRewards(chainId as any, users);
+    memory[ChainId[chainId]] = rewards;
+  }
+  const storage = await storageHelper.read();
+  for (const chainId in MINICHEF_ADDRESS) {
+    storage[ChainId[chainId]].rewards = memory[ChainId[chainId]];
+  }
+  await storageHelper.write(storage);
 }
