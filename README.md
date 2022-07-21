@@ -2,8 +2,8 @@
 
 * Notify if a minichef sushi balance goes under 1000 SUSHI (Notify only one time until refill completed).
 * /balance <chain-name | all> => return the sushi balance(s) on the corresponding minichef(s).
-* /rewards <chain-name | all> => return the sushi rewards to be claimed on the corresponding minichef(s).
-* /chain => return the chains available for the 2 aboves commands.
+* /rewards <chain-name | all> => return the sushi rewards to be claimed on the corresponding minichef(s) (Result might be incorrects).
+* /chains => return the chains available for the 2 aboves commands.
 
 ## Usage
 
