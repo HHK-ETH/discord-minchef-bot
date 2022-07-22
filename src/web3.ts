@@ -16,6 +16,17 @@ export async function queryMinichefSushiBalance(chainId: number): Promise<number
   }
 }
 
+export async function queryMinichefSushiPerSecond(chainId: number): Promise<number> {
+  try {
+    const provider = new ethers.providers.JsonRpcProvider(RPC[chainId]);
+    const minichef = new Contract(MINICHEF_ADDRESS[chainId], MINICHEF_ABI, provider);
+    const sushiPerSecond = await minichef.sushiPerSecond();
+    return parseFloat(formatUnits(sushiPerSecond, 18));
+  } catch (e) {
+    return -1;
+  }
+}
+
 export async function queryAllMinichefSushiBalance(): Promise<{ label: string; amount: number }[]> {
   const amounts = [];
   for (const id in MINICHEF_ADDRESS) {
@@ -27,6 +38,14 @@ export async function queryAllMinichefSushiBalance(): Promise<{ label: string; a
     });
   }
   return amounts;
+}
+
+export async function queryAllMinichefSushiPerSecond(): Promise<number[]> {
+  const sushiPerSecond = [];
+  for (const id in MINICHEF_ADDRESS) {
+    sushiPerSecond.push(await queryMinichefSushiPerSecond(id as any));
+  }
+  return sushiPerSecond;
 }
 
 export interface IGraphUser {

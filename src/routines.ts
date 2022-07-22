@@ -1,13 +1,20 @@
 import { TextChannel } from 'discord.js';
 import { ChainId, MINICHEF_ADDRESS } from './constants';
 import StorageHelper from './storageHelper';
-import { fetchTheGraphUsers, queryAllMinichefSushiBalance, queryMinichefRewards } from './web3';
+import {
+  fetchTheGraphUsers,
+  queryAllMinichefSushiBalance,
+  queryAllMinichefSushiPerSecond,
+  queryMinichefRewards,
+} from './web3';
 
 export async function checkBalanceRoutine(textChannels: TextChannel[], storageHelper: StorageHelper): Promise<void> {
   const balances = await queryAllMinichefSushiBalance();
+  const sushiPerSecond = await queryAllMinichefSushiPerSecond();
   const storage = await storageHelper.read();
+  let i = 0;
   for (const balance of balances) {
-    if (balance.amount !== -1) {
+    if (balance.amount !== -1 && sushiPerSecond[i] > 0) {
       storage[balance.label].amount = balance.amount;
       if (balance.amount < 1000 && storage[balance.label].pingedRefill === false) {
         for (const textChannel of textChannels) {
@@ -26,6 +33,7 @@ export async function checkBalanceRoutine(textChannels: TextChannel[], storageHe
         storage[balance.label].pingedRefill = false;
       }
     }
+    i += 1;
   }
   storageHelper.write(storage);
 }
