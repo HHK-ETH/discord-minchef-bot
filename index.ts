@@ -40,8 +40,11 @@ client.login(process.env.DISCORD_TOKEN).then(
     );
 
     //add routines
-    setInterval(() => checkBalanceRoutine(textChannels, storageHelper), 60_000);
-    setInterval(() => fetchPendingSushiRoutine(storageHelper), 600_000);
+    if (!process.env.BALANCE_ROUTINE || !process.env.REWARDS_ROUTINE) {
+      throw Error('.env files missing routine times.');
+    }
+    setInterval(() => checkBalanceRoutine(textChannels, storageHelper), parseInt(process.env.BALANCE_ROUTINE, 10));
+    setInterval(() => fetchPendingSushiRoutine(storageHelper), parseInt(process.env.REWARDS_ROUTINE, 10));
 
     //add commands
     client.on('interactionCreate', async (interaction) => {
