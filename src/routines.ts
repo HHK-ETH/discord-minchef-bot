@@ -6,6 +6,7 @@ import {
   queryAllMinichefSushiBalance,
   queryAllMinichefSushiPerSecond,
   queryMinichefRewards,
+  queryRewardersbalance,
 } from './web3';
 
 export async function checkBalanceRoutine(textChannels: TextChannel[], storageHelper: StorageHelper): Promise<void> {
@@ -43,6 +44,11 @@ export async function fetchPendingSushiRoutine(storageHelper: StorageHelper): Pr
   for (const chainId in MINICHEF_ADDRESS) {
     const users = await fetchTheGraphUsers(chainId as any);
     const rewards = await queryMinichefRewards(chainId as any, users);
+    const balances = await queryRewardersbalance(chainId as any, rewards.tokenRewards);
+    for (const address in balances) {
+      rewards.tokenRewards[address].tokenName = balances[address].tokenName;
+      rewards.tokenRewards[address].amount = balances[address].amount;
+    }
     memory[ChainId[chainId]] = rewards;
   }
   const storage = await storageHelper.read();
