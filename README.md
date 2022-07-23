@@ -1,8 +1,10 @@
 # Minichef Bot
 
 * Notify if a minichef sushi balance goes under 1000 SUSHI (Notify only one time until refill completed).
-* /balance <chain-name | all> => return the sushi balance(s) on the corresponding minichef(s).
-* /rewards <chain-name | all> => return the sushi rewards to be claimed on the corresponding minichef(s) (Result might be incorrects).
+* /minichefs-balance <chain-name | all> => return the sushi balance(s) on the corresponding minichef(s).
+* /rewarders-balance <chain-name> => return the token rewards balance(s) on the corresponding rewarder(s).
+* /minichefs-rewards <chain-name | all> => return the sushi rewards to be claimed on the corresponding minichef(s) (Result might be incorrects).
+* /rewarders-rewards <chain-name> => return the token rewards to be claimed on the corresponding rewarder(s) (Result might be incorrects).
 * /chains => return the chains available for the 2 aboves commands.
 
 ## Usage
