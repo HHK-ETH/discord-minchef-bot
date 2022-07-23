@@ -121,24 +121,40 @@ export const QUERY = gql`
       address
       pool {
         id
+        rewarder {
+          id
+          rewardToken
+        }
       }
     }
     u2: users(skip: $skip2, first: 1000, where: { rewardDebt_gt: 0, id_gt: $lastId }) {
       address
       pool {
         id
+        rewarder {
+          id
+          rewardToken
+        }
       }
     }
     u3: users(skip: $skip3, first: 1000, where: { rewardDebt_gt: 0, id_gt: $lastId }) {
       address
       pool {
         id
+        rewarder {
+          id
+          rewardToken
+        }
       }
     }
     u4: users(skip: $skip4, first: 1000, where: { rewardDebt_gt: 0, id_gt: $lastId }) {
       address
       pool {
         id
+        rewarder {
+          id
+          rewardToken
+        }
       }
     }
     u5: users(skip: $skip5, first: 1000, where: { rewardDebt_gt: 0, id_gt: $lastId }) {
@@ -146,6 +162,10 @@ export const QUERY = gql`
       address
       pool {
         id
+        rewarder {
+          id
+          rewardToken
+        }
       }
     }
   }
