@@ -10,16 +10,20 @@ if (!token || !clientId) {
 
 const commands = [
   new SlashCommandBuilder()
-    .setName('balance')
-    .setDescription(
-      '/balance <chain | all> (See /chains) => Returns the amount of sushi on the corresponding minichef.'
-    )
+    .setName('minichefs-balance')
+    .setDescription('/minichefs-balance <chain | all> => Returns amount of sushi on the corresponding minichef.')
     .addStringOption((option) => option.setName('chain').setDescription('Chain name or all').setRequired(true)),
   new SlashCommandBuilder()
-    .setName('rewards')
-    .setDescription(
-      '/rewards <chain | all> (See /chains) => Returns the amount of sushi needed to fullfil users rewards.'
-    )
+    .setName('rewarders-balance')
+    .setDescription('/rewarders-balance <chain> => Returns the amount of reward tokens on the corresponding rewarders.')
+    .addStringOption((option) => option.setName('chain').setDescription('Chain name or all').setRequired(true)),
+  new SlashCommandBuilder()
+    .setName('minichefs-rewards')
+    .setDescription('/rewards <chain | all> => Returns the amount of sushi due to users.')
+    .addStringOption((option) => option.setName('chain').setDescription('Chain name or all').setRequired(true)),
+  new SlashCommandBuilder()
+    .setName('rewarders-rewards')
+    .setDescription('/rewards <chain> => Returns the amount of reward tokens needed due to users.')
     .addStringOption((option) => option.setName('chain').setDescription('Chain name or all').setRequired(true)),
   new SlashCommandBuilder()
     .setName('chains')
