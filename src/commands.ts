@@ -1,9 +1,9 @@
 import { CacheType, CommandInteraction, MessageEmbed } from 'discord.js';
 import { ChainId, MINICHEF_ADDRESS } from './constants';
 import StorageHelper from './storageHelper';
-import { queryAllMinichefSushiBalance, queryMinichefSushiBalance } from './web3';
+import { queryAllMinichefSushiBalance, queryMinichefSushiBalance, queryRewardersbalance } from './web3';
 
-export async function slashBalance(interaction: CommandInteraction<CacheType>): Promise<void> {
+export async function slashMinichefsBalance(interaction: CommandInteraction<CacheType>): Promise<void> {
   const chain = interaction.options.getString('chain')?.toUpperCase();
   //all chains
   if (chain === undefined || chain === 'ALL') {
@@ -40,7 +40,44 @@ export async function slashBalance(interaction: CommandInteraction<CacheType>): 
   });
 }
 
-export async function slashRewards(
+export async function slashRewardersBalance(
+  interaction: CommandInteraction<CacheType>,
+  storageHelper: StorageHelper
+): Promise<void> {
+  const chain = interaction.options.getString('chain')?.toUpperCase();
+  const chainId = ChainId[chain as any];
+  if (chainId !== undefined && chain !== undefined) {
+    const storage = await storageHelper.read();
+    const rewardersData = await queryRewardersbalance(chainId as any, storage[chain].rewards.tokenRewards);
+    const msg = new MessageEmbed()
+      .setTitle('Tokens availables')
+      .setDescription('Amount of reward tokens available on each rewarder.');
+    for (const rewarderAddress in rewardersData) {
+      const data = rewardersData[rewarderAddress];
+      if (data.amount === -1) {
+        msg.addField(
+          data.tokenName + ' rewarder (' + rewarderAddress + ')',
+          'Error while querying this rewarder, retry later.',
+          false
+        );
+      } else {
+        msg.addField(
+          data.tokenName + ' rewarder (' + rewarderAddress + ')',
+          data.amount.toFixed(2) + ' ' + data.tokenName,
+          false
+        );
+      }
+    }
+    await interaction.editReply({ embeds: [msg] });
+    return;
+  }
+  //unknow chain
+  await interaction.editReply({
+    content: 'No rewarders for the chain given, see /chains.',
+  });
+}
+
+export async function slashMinichefsRewards(
   interaction: CommandInteraction<CacheType>,
   storageHelper: StorageHelper
 ): Promise<void> {
@@ -53,8 +90,8 @@ export async function slashRewards(
     for (const chainId in MINICHEF_ADDRESS) {
       const label = ChainId[chainId as any];
       const data = storage[label];
-      const text = data.amount > data.rewards ? ' SUSHI' : ' SUSHI <!>Current balance inferior<!>';
-      msg.addField(label, data.rewards.toFixed(2) + text, false);
+      const text = data.amount > data.rewards.sushiRewards ? ' SUSHI' : ' SUSHI <!>Current balance inferior<!>';
+      msg.addField(label, data.rewards.sushiRewards.toFixed(2) + text, false);
     }
     await interaction.editReply({ embeds: [msg] });
     return;
@@ -63,10 +100,46 @@ export async function slashRewards(
   if (chainId !== undefined) {
     const label = ChainId[chainId as any];
     const data = storage[label];
-    const text = data.amount > data.rewards ? ' SUSHI' : ' SUSHI <!>Current balance inferior<!>';
+    const text = data.amount > data.rewards.sushiRewards ? ' SUSHI' : ' SUSHI <!>Current balance inferior<!>';
     await interaction.editReply({
-      content: 'Sushi claimable on ' + chain + ' minichef: ' + data.rewards.toFixed(2) + text,
+      content: 'Sushi claimable on ' + chain + ' minichef: ' + data.rewards.sushiRewards.toFixed(2) + text,
     });
+    return;
+  }
+  await interaction.editReply({
+    content: 'No minichef contract for the chain given, see /chains.',
+  });
+}
+
+export async function slashRewardersRewards(
+  interaction: CommandInteraction<CacheType>,
+  storageHelper: StorageHelper
+): Promise<void> {
+  const chain = interaction.options.getString('chain')?.toUpperCase();
+  const chainId = ChainId[chain as any];
+  if (chainId !== undefined && chain !== undefined) {
+    const storage = await storageHelper.read();
+    const msg = new MessageEmbed()
+      .setTitle('Tokens rewards')
+      .setDescription('Amount of reward tokens due on each rewarder.');
+    for (const rewarderAddress in storage[chain].rewards.tokenRewards) {
+      const data = storage[chain].rewards.tokenRewards[rewarderAddress];
+      if (data.rewards === -1) {
+        msg.addField(
+          data.tokenName + ' rewarder (' + rewarderAddress + ')',
+          'Error while querying this rewarder, retry later.',
+          false
+        );
+      } else {
+        const text = data.rewards > data.amount ? ' <!>Current balance inferior<!>' : '';
+        msg.addField(
+          data.tokenName + ' rewarder (' + rewarderAddress + ')',
+          data.rewards.toFixed(2) + ' ' + data.tokenName + text,
+          false
+        );
+      }
+    }
+    await interaction.editReply({ embeds: [msg] });
     return;
   }
   await interaction.editReply({
