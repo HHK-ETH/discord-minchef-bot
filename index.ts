@@ -2,9 +2,11 @@ import dotenv from 'dotenv';
 import { Client, Intents, TextChannel } from 'discord.js';
 import {
   checkBalanceRoutine,
-  slashBalance,
+  slashRewardersBalance,
+  slashMinichefsBalance,
   slashChains,
-  slashRewards,
+  slashRewardersRewards,
+  slashMinichefsRewards,
   StorageHelper,
   fetchPendingSushiRoutine,
 } from './src';
@@ -55,13 +57,21 @@ client.login(process.env.DISCORD_TOKEN).then(
       if (commandName === 'chains') {
         return await slashChains(interaction);
       }
-      if (commandName === 'balance') {
+      if (commandName === 'minichefs-balance') {
         await interaction.deferReply({ ephemeral: true });
-        return await slashBalance(interaction);
+        return await slashMinichefsBalance(interaction);
       }
-      if (commandName === 'rewards') {
+      if (commandName === 'rewarders-balance') {
         await interaction.deferReply({ ephemeral: true });
-        return await slashRewards(interaction, storageHelper);
+        return await slashRewardersBalance(interaction, storageHelper);
+      }
+      if (commandName === 'minichefs-rewards') {
+        await interaction.deferReply({ ephemeral: true });
+        return await slashMinichefsRewards(interaction, storageHelper);
+      }
+      if (commandName === 'rewarders-rewards') {
+        await interaction.deferReply({ ephemeral: true });
+        return await slashRewardersRewards(interaction, storageHelper);
       }
     });
   },
