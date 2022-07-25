@@ -6,7 +6,16 @@ type Storage = {
   [label: string]: {
     rewards: {
       sushiRewards: number;
-      tokenRewards: { [address: string]: { rewards: number; amount: number; token: string; tokenName: string } };
+      tokenRewards: {
+        [address: string]: {
+          rewards: number;
+          amount: number;
+          token: string;
+          tokenName: string;
+          rewardPerSecond: number;
+          pingedRefill: boolean;
+        };
+      };
     };
     amount: number;
     pingedRefill: boolean;

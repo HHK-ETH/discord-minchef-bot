@@ -1,4 +1,4 @@
-import { BigNumber, Contract, ethers } from 'ethers';
+import { Contract, ethers } from 'ethers';
 import { MINICHEF_ADDRESS, SUSHI_ADDRESS, RPC, ChainId, MULTICALL } from './constants';
 import { ERC20_ABI, MINICHEF_ABI, MULTICALL_ABI, REWARDER_ABI } from './../imports';
 import { AbiCoder, formatUnits } from 'ethers/lib/utils';
@@ -54,6 +54,7 @@ export interface IGraphUser {
     rewarder: {
       id: string;
       rewardToken: string;
+      rewardPerSecond: string;
     };
   };
   address: string;
@@ -130,8 +131,10 @@ export async function queryMinichefRewards(
           tokenRewards[user.pool.rewarder.id] = {
             rewards: 0,
             token: user.pool.rewarder.rewardToken,
+            rewardPerSecond: parseFloat(formatUnits(user.pool.rewarder.rewardPerSecond, 18)),
             tokenName: '',
             amount: 0,
+            pingedRefill: false,
           };
         }
         tokenRewards[user.pool.rewarder.id].rewards += parseFloat(formatUnits(rewardAmount, 18)); //TODO query token decimals

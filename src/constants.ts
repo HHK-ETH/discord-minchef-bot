@@ -64,6 +64,7 @@ export const SUSHI_ADDRESS: { [chainId: number]: string } = {
 };
 
 export const RPC: { [chainId: number]: string } = {
+  [ChainId.ETHEREUM]: 'https://rpc.ankr.com/eth',
   [ChainId.POLYGON]: 'https://polygon-rpc.com',
   [ChainId.GNOSIS]: 'https://gnosis.public-rpc.com',
   [ChainId.HARMONY]: 'https://harmony.public-rpc.com',
@@ -77,6 +78,7 @@ export const RPC: { [chainId: number]: string } = {
 };
 
 export const MINICHEF_ADDRESS: { [chainId: number]: string } = {
+  [ChainId.ETHEREUM]: '0xEF0881eC094552b2e128Cf945EF17a6752B4Ec5d',
   [ChainId.POLYGON]: '0x0769fd68dFb93167989C6f7254cd0D766Fb2841F',
   [ChainId.GNOSIS]: '0xdDCbf776dF3dE60163066A5ddDF2277cB445E0F3',
   [ChainId.HARMONY]: '0x67dA5f2FfaDDfF067AB9d5F025F8810634d84287',
@@ -90,6 +92,7 @@ export const MINICHEF_ADDRESS: { [chainId: number]: string } = {
 };
 
 export const MINICHEF_SUBGRAPH: { [chainId: number]: string } = {
+  [ChainId.ETHEREUM]: 'https://api.thegraph.com/subgraphs/name/sushiswap/master-chefv2',
   [ChainId.POLYGON]: 'https://api.thegraph.com/subgraphs/name/sushiswap/matic-minichef',
   [ChainId.GNOSIS]: 'https://api.thegraph.com/subgraphs/name/sushiswap/xdai-minichef',
   [ChainId.HARMONY]: 'https://sushi.graph.t.hmny.io/subgraphs/name/sushiswap/harmony-minichef',
@@ -103,6 +106,7 @@ export const MINICHEF_SUBGRAPH: { [chainId: number]: string } = {
 };
 
 export const MULTICALL: { [chainId: number]: string } = {
+  [ChainId.ETHEREUM]: '0xcA11bde05977b3631167028862bE2a173976CA11',
   [ChainId.POLYGON]: '0xcA11bde05977b3631167028862bE2a173976CA11',
   [ChainId.GNOSIS]: '0xcA11bde05977b3631167028862bE2a173976CA11',
   [ChainId.HARMONY]: '0xcA11bde05977b3631167028862bE2a173976CA11',
@@ -124,6 +128,7 @@ export const QUERY = gql`
         rewarder {
           id
           rewardToken
+          rewardPerSecond
         }
       }
     }
@@ -134,6 +139,7 @@ export const QUERY = gql`
         rewarder {
           id
           rewardToken
+          rewardPerSecond
         }
       }
     }
@@ -144,6 +150,7 @@ export const QUERY = gql`
         rewarder {
           id
           rewardToken
+          rewardPerSecond
         }
       }
     }
@@ -154,6 +161,7 @@ export const QUERY = gql`
         rewarder {
           id
           rewardToken
+          rewardPerSecond
         }
       }
     }
@@ -165,6 +173,7 @@ export const QUERY = gql`
         rewarder {
           id
           rewardToken
+          rewardPerSecond
         }
       }
     }

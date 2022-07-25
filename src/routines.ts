@@ -9,6 +9,40 @@ import {
   queryRewardersbalance,
 } from './web3';
 
+export async function checkRewardersBalanceRoutine(
+  textChannels: TextChannel[],
+  storageHelper: StorageHelper
+): Promise<void> {
+  const storage = await storageHelper.read();
+  for (const chain in storage) {
+    const chainData = storage[chain];
+    for (const rewarderAddress in chainData.rewards.tokenRewards) {
+      const rewarder = chainData.rewards.tokenRewards[rewarderAddress];
+      //todo add 5 days runaway
+      if (rewarder.amount < rewarder.rewards && rewarder.pingedRefill === false) {
+        for (const textChannel of textChannels) {
+          textChannel.send({
+            content:
+              'Warning! ' +
+              rewarder.tokenName +
+              ' rewarder balance is below the rewards due (+' +
+              rewarder.rewards.toFixed(2) +
+              '), only ' +
+              rewarder.amount.toFixed(2) +
+              ' ' +
+              rewarder.tokenName +
+              ' left!',
+          });
+        }
+        storage[chain].rewards.tokenRewards[rewarderAddress].pingedRefill = true;
+      } else if (rewarder.amount > rewarder.rewards && rewarder.pingedRefill === true) {
+        storage[chain].rewards.tokenRewards[rewarderAddress].pingedRefill = false;
+      }
+    }
+  }
+  storageHelper.write(storage);
+}
+
 export async function checkBalanceRoutine(textChannels: TextChannel[], storageHelper: StorageHelper): Promise<void> {
   const balances = await queryAllMinichefSushiBalance();
   const sushiPerSecond = await queryAllMinichefSushiPerSecond();
@@ -23,14 +57,13 @@ export async function checkBalanceRoutine(textChannels: TextChannel[], storageHe
             content:
               'Warning! ' +
               balance.label +
-              ' minichef balance is under 1000 SUSHI, only ' +
+              ' minichef balance is below 1000 SUSHI, only ' +
               balance.amount.toFixed(2) +
               ' SUSHI left!',
           });
         }
         storage[balance.label].pingedRefill = true;
-      }
-      if (balance.amount > 1000 && storage[balance.label].pingedRefill === true) {
+      } else if (balance.amount > 1000 && storage[balance.label].pingedRefill === true) {
         storage[balance.label].pingedRefill = false;
       }
     }

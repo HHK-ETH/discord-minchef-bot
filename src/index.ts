@@ -7,9 +7,9 @@ import {
   slashRewardersRewards,
 } from './commands';
 import StorageHelper from './storageHelper';
-import { checkBalanceRoutine, fetchPendingSushiRoutine } from './routines';
+import { checkBalanceRoutine, fetchPendingSushiRoutine, checkRewardersBalanceRoutine } from './routines';
 
 export { ChainId, RPC, SUSHI_ADDRESS, MINICHEF_ADDRESS };
 export { slashMinichefsBalance, slashRewardersBalance, slashChains, slashMinichefsRewards, slashRewardersRewards };
 export { StorageHelper };
-export { checkBalanceRoutine, fetchPendingSushiRoutine };
+export { checkBalanceRoutine, fetchPendingSushiRoutine, checkRewardersBalanceRoutine };
