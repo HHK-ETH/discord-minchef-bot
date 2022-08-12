@@ -9,6 +9,7 @@ import {
   slashMinichefsRewards,
   StorageHelper,
   fetchPendingSushiRoutine,
+  checkRewardersBalanceRoutine,
 } from './src';
 dotenv.config();
 
@@ -42,11 +43,14 @@ client.login(process.env.DISCORD_TOKEN).then(
     );
 
     //add routines
-    if (!process.env.BALANCE_ROUTINE || !process.env.REWARDS_ROUTINE) {
+    if (!process.env.BALANCE_ROUTINE) {
       throw Error('.env files missing routine times.');
     }
-    setInterval(() => checkBalanceRoutine(textChannels, storageHelper), parseInt(process.env.BALANCE_ROUTINE, 10));
-    setInterval(() => fetchPendingSushiRoutine(storageHelper), parseInt(process.env.REWARDS_ROUTINE, 10));
+    setInterval(async () => {
+      await fetchPendingSushiRoutine(storageHelper);
+      await checkBalanceRoutine(textChannels, storageHelper);
+      await checkRewardersBalanceRoutine(textChannels, storageHelper);
+    }, parseInt(process.env.BALANCE_ROUTINE, 10));
 
     //add commands
     client.on('interactionCreate', async (interaction) => {

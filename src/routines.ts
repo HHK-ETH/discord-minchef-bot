@@ -25,7 +25,7 @@ export async function checkRewardersBalanceRoutine(
             content:
               'Warning! ' +
               rewarder.tokenName +
-              ' rewarder balance is below the rewards due (+' +
+              ' rewarder balance is below the rewards due (' +
               rewarder.rewards.toFixed(2) +
               '), only ' +
               rewarder.amount.toFixed(2) +
@@ -74,19 +74,22 @@ export async function checkBalanceRoutine(textChannels: TextChannel[], storageHe
 
 export async function fetchPendingSushiRoutine(storageHelper: StorageHelper): Promise<void> {
   const memory: any = {};
-  for (const chainId in MINICHEF_ADDRESS) {
-    const users = await fetchTheGraphUsers(chainId as any);
-    const rewards = await queryMinichefRewards(chainId as any, users);
-    const balances = await queryRewardersbalance(chainId as any, rewards.tokenRewards);
-    for (const address in balances) {
-      rewards.tokenRewards[address].tokenName = balances[address].tokenName;
-      rewards.tokenRewards[address].amount = balances[address].amount;
-    }
-    memory[ChainId[chainId]] = rewards;
-  }
+  await Promise.all(
+    Object.keys(MINICHEF_ADDRESS).map(async (chainId) => {
+      const users = await fetchTheGraphUsers(chainId as any);
+      const rewards = await queryMinichefRewards(chainId as any, users);
+      const balances = await queryRewardersbalance(chainId as any, rewards.tokenRewards);
+      for (const address in balances) {
+        rewards.tokenRewards[address].tokenName = balances[address].tokenName;
+        rewards.tokenRewards[address].amount = balances[address].amount;
+      }
+      memory[ChainId[chainId as any]] = rewards;
+    })
+  );
   const storage = await storageHelper.read();
   for (const chainId in MINICHEF_ADDRESS) {
     storage[ChainId[chainId]].rewards = memory[ChainId[chainId]];
   }
   await storageHelper.write(storage);
+  console.log('Updated storage.');
 }
