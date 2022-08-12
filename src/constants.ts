@@ -68,7 +68,7 @@ export const RPC: { [chainId: number]: string } = {
   [ChainId.POLYGON]: 'https://polygon-rpc.com',
   [ChainId.GNOSIS]: 'https://gnosis.public-rpc.com',
   [ChainId.HARMONY]: 'https://harmony.public-rpc.com',
-  [ChainId.ARBITRUM]: 'https://arbitrum.public-rpc.com',
+  [ChainId.ARBITRUM]: 'https://arb1.arbitrum.io/rpc',
   [ChainId.CELO]: 'https://forno.celo.org',
   [ChainId.MOONRIVER]: 'https://moonriver.public.blastapi.io',
   [ChainId.FUSE]: 'https://rpc.fuse.io/',
