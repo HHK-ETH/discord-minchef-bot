@@ -65,11 +65,11 @@ export const SUSHI_ADDRESS: { [chainId: number]: string } = {
 };
 
 export const RPC: { [chainId: number]: string } = {
-  [ChainId.ETHEREUM]: 'https://rpc.ankr.com/eth',
-  [ChainId.POLYGON]: 'https://polygon-rpc.com',
+  [ChainId.ETHEREUM]: 'https://eth-mainnet.g.alchemy.com/v2/Y1q21D8WUrAEbkgvEIcnAv5V1R8DN6XL',
+  [ChainId.POLYGON]: 'https://polygon-mainnet.g.alchemy.com/v2/m0kQLZbwksQS9RBhzCEAnUFW2Vtb6gpQ',
   [ChainId.GNOSIS]: 'https://rpc.ankr.com/gnosis',
   [ChainId.HARMONY]: 'https://harmony.public-rpc.com',
-  [ChainId.ARBITRUM]: 'https://arb1.arbitrum.io/rpc',
+  [ChainId.ARBITRUM]: 'https://arb-mainnet.g.alchemy.com/v2/1R6qdXuz8FqXgbaEaatn596u4tnTMfNS',
   [ChainId.CELO]: 'https://rpc.ankr.com/celo',
   [ChainId.MOONRIVER]: 'https://moonriver.public.blastapi.io',
   [ChainId.FUSE]: 'https://rpc.fuse.io/',
