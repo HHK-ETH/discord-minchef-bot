@@ -19,7 +19,7 @@ export async function checkRewardersBalanceRoutine(
     for (const rewarderAddress in chainData.rewards.tokenRewards) {
       const rewarder = chainData.rewards.tokenRewards[rewarderAddress];
       //todo add 5 days runaway
-      if (rewarder.amount < rewarder.rewards && rewarder.pingedRefill === false) {
+      if (rewarder.amount < rewarder.rewards && rewarder.pingedRefill === false && rewarder.notify === true) {
         for (const textChannel of textChannels) {
           textChannel.send({
             content:
