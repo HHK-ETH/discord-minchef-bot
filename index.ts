@@ -48,7 +48,7 @@ client.login(process.env.DISCORD_TOKEN).then(
       throw Error('.env files missing routine times.');
     }
     setInterval(async () => {
-      await fetchPendingSushiRoutine(storageHelper);
+      //await fetchPendingSushiRoutine(storageHelper);
       await checkBalanceRoutine(textChannels, storageHelper);
       await checkRewardersBalanceRoutine(textChannels, storageHelper);
     }, parseInt(process.env.BALANCE_ROUTINE, 10));

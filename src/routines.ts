@@ -27,7 +27,9 @@ export async function checkRewardersBalanceRoutine(
               rewarder.tokenName +
               ' rewarder balance is below the rewards due (' +
               rewarder.rewards.toFixed(2) +
-              '), only ' +
+              ' ' +
+              rewarder.tokenName +
+              ', only ' +
               rewarder.amount.toFixed(2) +
               ' ' +
               rewarder.tokenName +
