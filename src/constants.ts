@@ -61,20 +61,22 @@ export const SUSHI_ADDRESS: { [chainId: number]: string } = {
   [ChainId.FUSE]: '0x90708b20ccC1eb95a4FA7C8b18Fd2C22a0Ff9E78',
   [ChainId.MOONBEAM]: '0x2C78f1b70Ccf63CDEe49F9233e9fAa99D43AA07e',
   [ChainId.KAVA]: '0x7C598c96D02398d89FbCb9d41Eab3DF0C16F227D',
+  [ChainId.METIS]: '0x17Ee7E4dA37B01FC1bcc908fA63DF343F23B4B7C',
 };
 
 export const RPC: { [chainId: number]: string } = {
   [ChainId.ETHEREUM]: 'https://rpc.ankr.com/eth',
   [ChainId.POLYGON]: 'https://polygon-rpc.com',
-  [ChainId.GNOSIS]: 'https://gnosis.public-rpc.com',
+  [ChainId.GNOSIS]: 'https://rpc.ankr.com/gnosis',
   [ChainId.HARMONY]: 'https://harmony.public-rpc.com',
   [ChainId.ARBITRUM]: 'https://arb1.arbitrum.io/rpc',
-  [ChainId.CELO]: 'https://forno.celo.org',
+  [ChainId.CELO]: 'https://rpc.ankr.com/celo',
   [ChainId.MOONRIVER]: 'https://moonriver.public.blastapi.io',
   [ChainId.FUSE]: 'https://rpc.fuse.io/',
   [ChainId.FANTOM]: 'https://rpc.ankr.com/fantom',
   [ChainId.MOONBEAM]: 'https://moonbeam.public-rpc.com',
   [ChainId.KAVA]: 'https://evm.kava.io',
+  [ChainId.METIS]: 'https://andromeda.metis.io/?owner=1088',
 };
 
 export const MINICHEF_ADDRESS: { [chainId: number]: string } = {
@@ -89,6 +91,7 @@ export const MINICHEF_ADDRESS: { [chainId: number]: string } = {
   [ChainId.FANTOM]: '0xf731202A3cf7EfA9368C2d7bD613926f7A144dB5',
   [ChainId.MOONBEAM]: '0x011E52E4E40CF9498c79273329E8827b21E2e581',
   [ChainId.KAVA]: '0xf731202A3cf7EfA9368C2d7bD613926f7A144dB5',
+  [ChainId.METIS]: '0x1334c8e873E1cae8467156e2A81d1C8b566B2da1',
 };
 
 export const MINICHEF_SUBGRAPH: { [chainId: number]: string } = {
@@ -103,6 +106,7 @@ export const MINICHEF_SUBGRAPH: { [chainId: number]: string } = {
   [ChainId.FANTOM]: 'https://api.thegraph.com/subgraphs/name/sushiswap/fantom-minichef',
   [ChainId.MOONBEAM]: 'https://api.thegraph.com/subgraphs/name/sushiswap/moonbeam-minichef',
   [ChainId.KAVA]: 'https://pvt.graph.kava.io/sushiswap/kava-minichef',
+  [ChainId.METIS]: 'https://andromeda.thegraph.metis.io/subgraphs/name/sushiswap/metis-minichef',
 };
 
 export const MULTICALL: { [chainId: number]: string } = {
@@ -117,6 +121,7 @@ export const MULTICALL: { [chainId: number]: string } = {
   [ChainId.FANTOM]: '0xcA11bde05977b3631167028862bE2a173976CA11',
   [ChainId.MOONBEAM]: '0xcA11bde05977b3631167028862bE2a173976CA11',
   [ChainId.KAVA]: '0x30A62aA52Fa099C4B227869EB6aeaDEda054d121',
+  [ChainId.METIS]: '0xcA11bde05977b3631167028862bE2a173976CA11',
 };
 
 export const QUERY = gql`
