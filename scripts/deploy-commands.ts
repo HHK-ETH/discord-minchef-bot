@@ -28,6 +28,12 @@ const commands = [
   new SlashCommandBuilder()
     .setName('chains')
     .setDescription('Returns the chains available for /balance and /rewards commands.'),
+  new SlashCommandBuilder()
+    .setName('notify-rewarder')
+    .setDescription('Turn on/off notifications for a rewarder.')
+    .addStringOption((option) => option.setName('chain').setDescription('Chain name').setRequired(true))
+    .addStringOption((option) => option.setName('address').setDescription('Rewarder address').setRequired(true))
+    .addBooleanOption((option) => option.setName('activate').setDescription('True or false').setRequired(true)),
 ].map((command) => command.toJSON());
 
 const rest = new REST({ version: '9' }).setToken(token);

@@ -48,7 +48,7 @@ export async function slashRewardersBalance(
   const chainId = ChainId[chain as any];
   if (chainId !== undefined && chain !== undefined) {
     const storage = await storageHelper.read();
-    const rewardersData = await queryRewardersbalance(chainId as any, storage[chain].rewards.tokenRewards);
+    const rewardersData = storage[chain].rewards.tokenRewards;
     const msg = new MessageEmbed()
       .setTitle('Tokens availables')
       .setDescription('Amount of reward tokens available on each rewarder.');
@@ -154,4 +154,32 @@ export async function slashChains(interaction: CommandInteraction<CacheType>): P
     labels.push(label);
   }
   interaction.reply({ content: 'Chains availables: ' + labels.join(', ') + '.', ephemeral: true });
+}
+
+export async function slashNotifyRewarder(
+  interaction: CommandInteraction<CacheType>,
+  storageHelper: StorageHelper
+): Promise<void> {
+  const chain = interaction.options.getString('chain')?.toUpperCase();
+  const chainId = ChainId[chain as any];
+  const address = interaction.options.getString('address')?.toLowerCase();
+  const activate = interaction.options.getBoolean('activate');
+  if (address === undefined || activate === null) {
+    return interaction.reply({ content: 'Please specify: chain-name rewarder-address true|false.', ephemeral: true });
+  }
+  if (chainId === undefined || chain === undefined) {
+    return interaction.reply({ content: 'Invalid chain.', ephemeral: true });
+  }
+  const storage = await storageHelper.read();
+  const rewarder = storage[chain].rewards.tokenRewards[address];
+  if (rewarder !== undefined) {
+    interaction.reply({
+      content:
+        'Notifications turned ' + (activate === true ? 'on' : 'off') + ' for rewarder: ' + address + ' on ' + chain,
+      ephemeral: false,
+    });
+    storage[chain].rewards.tokenRewards[address].notify = activate;
+    return await storageHelper.write(storage);
+  }
+  return interaction.reply({ content: 'Cannot find the rewarder address on the chain given.', ephemeral: true });
 }
