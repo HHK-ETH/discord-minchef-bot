@@ -80,7 +80,6 @@ export async function fetchTheGraphUsers(chainId: number): Promise<IGraphUser[]>
       }
       lastId = query.u5[query.u5.length - 1].id;
     } catch (e) {
-      console.log(ChainId[chainId]);
       console.log(e);
       break;
     }
@@ -100,10 +99,10 @@ export async function queryMinichefRewards(
   const minichef = new Contract(MINICHEF_ADDRESS[chainId], MINICHEF_ABI, provider);
   let sushiRewards = 0;
   let tokenRewards: any = {};
-  for (let i = 0; i < users.length; i += 300) {
+  for (let i = 0; i < users.length; i += 100) {
     const minichefCalls: Call[] = [];
     const rewarderCalls: Call[] = [];
-    for (let y = i; y < users.length && y < i + 300; y += 1) {
+    for (let y = i; y < users.length && y < i + 100; y += 1) {
       const user = users[y];
       const rewarder = new Contract(user.pool.rewarder.id, REWARDER_ABI, provider);
       rewarderCalls.push({
