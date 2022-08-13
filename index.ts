@@ -10,6 +10,7 @@ import {
   StorageHelper,
   fetchPendingSushiRoutine,
   checkRewardersBalanceRoutine,
+  slashNotifyRewarder,
 } from './src';
 dotenv.config();
 
@@ -60,6 +61,9 @@ client.login(process.env.DISCORD_TOKEN).then(
 
       if (commandName === 'chains') {
         return await slashChains(interaction);
+      }
+      if (commandName === 'notify-rewarder') {
+        return await slashNotifyRewarder(interaction, storageHelper);
       }
       if (commandName === 'minichefs-balance') {
         await interaction.deferReply({ ephemeral: true });

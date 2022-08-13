@@ -115,8 +115,14 @@ export async function queryMinichefRewards(
         callData: minichef.interface.encodeFunctionData('pendingSushi', [user.pool.id, user.address]),
       });
     }
-    const minichefResults = await multicall(chainId, minichefCalls, provider);
-    const rewarderResults = await multicall(chainId, rewarderCalls, provider);
+    let minichefResults: any = [],
+      rewarderResults: any = [];
+    try {
+      minichefResults = await multicall(chainId, minichefCalls, provider);
+      rewarderResults = await multicall(chainId, rewarderCalls, provider);
+    } catch (error) {
+      console.log(error);
+    }
     for (let a = 0; a < minichefResults.length; a++) {
       const minichefResult = minichefResults[a];
       const rewarderResult = rewarderResults[a];
@@ -135,6 +141,7 @@ export async function queryMinichefRewards(
             tokenName: '',
             amount: 0,
             pingedRefill: false,
+            notify: false,
           };
         }
         tokenRewards[user.pool.rewarder.id].rewards += parseFloat(formatUnits(rewardAmount, 18)); //TODO query token decimals
