@@ -49,26 +49,28 @@ export async function slashRewardersBalance(
   if (chainId !== undefined && chain !== undefined) {
     const storage = await storageHelper.read();
     const rewardersData = storage[chain].rewards.tokenRewards;
-    const msg = new MessageEmbed()
+    const embeds = [];
+    let i = 0;
+    let msg = new MessageEmbed()
       .setTitle('Tokens availables')
       .setDescription('Amount of reward tokens available on each rewarder.');
     for (const rewarderAddress in rewardersData) {
-      const data = rewardersData[rewarderAddress];
-      if (data.amount === -1) {
-        msg.addField(
-          data.tokenName + ' rewarder (' + rewarderAddress + ')',
-          'Error while querying this rewarder, retry later.',
-          false
-        );
-      } else {
-        msg.addField(
-          data.tokenName + ' rewarder (' + rewarderAddress + ')',
-          data.amount.toFixed(2) + ' ' + data.tokenName,
-          false
-        );
+      if (i % 25 === 0 && i !== 0) {
+        embeds.push(msg);
+        msg = new MessageEmbed()
+          .setTitle('Tokens availables')
+          .setDescription('Amount of reward tokens available on each rewarder.');
       }
+      const data = rewardersData[rewarderAddress];
+      msg.addField(
+        data.tokenName + ' rewarder (' + rewarderAddress + ')',
+        data.amount.toFixed(2) + ' ' + data.tokenName,
+        false
+      );
+      i += 1;
     }
-    await interaction.editReply({ embeds: [msg] });
+    embeds.push(msg);
+    await interaction.editReply({ embeds: embeds });
     return;
   }
   //unknow chain
@@ -119,27 +121,32 @@ export async function slashRewardersRewards(
   const chainId = ChainId[chain as any];
   if (chainId !== undefined && chain !== undefined) {
     const storage = await storageHelper.read();
-    const msg = new MessageEmbed()
+    const embeds = [];
+    let i = 0;
+    let msg = new MessageEmbed()
       .setTitle('Tokens rewards')
       .setDescription('Amount of reward tokens due on each rewarder.');
     for (const rewarderAddress in storage[chain].rewards.tokenRewards) {
-      const data = storage[chain].rewards.tokenRewards[rewarderAddress];
-      if (data.rewards === -1) {
-        msg.addField(
-          data.tokenName + ' rewarder (' + rewarderAddress + ')',
-          'Error while querying this rewarder, retry later.',
-          false
-        );
-      } else {
-        const text = data.rewards > data.amount ? ' <!>Current balance inferior<!>' : '';
-        msg.addField(
-          data.tokenName + ' rewarder (' + rewarderAddress + ')',
-          data.rewards.toFixed(2) + ' ' + data.tokenName + text,
-          false
-        );
+      if (i % 25 === 0 && i !== 0) {
+        embeds.push(msg);
+        msg = new MessageEmbed()
+          .setTitle('Tokens availables')
+          .setDescription('Amount of reward tokens available on each rewarder.');
       }
+      const data = storage[chain].rewards.tokenRewards[rewarderAddress];
+      const text =
+        data.rewards > data.amount
+          ? ' <!>Current balance inferior, only ' + data.amount.toFixed(2) + ' ' + data.tokenName + ' left<!>'
+          : '';
+      msg.addField(
+        data.tokenName + ' rewarder (' + rewarderAddress + ')',
+        data.rewards.toFixed(2) + ' ' + data.tokenName + text,
+        false
+      );
+      i += 1;
     }
-    await interaction.editReply({ embeds: [msg] });
+    embeds.push(msg);
+    await interaction.editReply({ embeds: embeds });
     return;
   }
   await interaction.editReply({
