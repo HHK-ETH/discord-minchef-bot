@@ -35,6 +35,7 @@ export enum ChainId {
   OPTIMISM = 10,
   KAVA = 2222,
   METIS = 1088,
+  BOBA = 288,
 }
 
 export const SUSHI_ADDRESS: { [chainId: number]: string } = {
@@ -62,6 +63,7 @@ export const SUSHI_ADDRESS: { [chainId: number]: string } = {
   [ChainId.MOONBEAM]: '0x2C78f1b70Ccf63CDEe49F9233e9fAa99D43AA07e',
   [ChainId.KAVA]: '0x7C598c96D02398d89FbCb9d41Eab3DF0C16F227D',
   [ChainId.METIS]: '0x17Ee7E4dA37B01FC1bcc908fA63DF343F23B4B7C',
+  [ChainId.BOBA]: '0x5ffccc55c0d2fd6d3ac32c26c020b3267e933f1b',
 };
 
 export const RPC: { [chainId: number]: string } = {
@@ -77,6 +79,7 @@ export const RPC: { [chainId: number]: string } = {
   [ChainId.MOONBEAM]: 'https://moonbeam.public-rpc.com',
   [ChainId.KAVA]: 'https://evm.kava.io',
   [ChainId.METIS]: 'https://andromeda.metis.io/?owner=1088',
+  [ChainId.BOBA]: 'https://mainnet.boba.network',
 };
 
 export const MINICHEF_ADDRESS: { [chainId: number]: string } = {
@@ -92,6 +95,7 @@ export const MINICHEF_ADDRESS: { [chainId: number]: string } = {
   [ChainId.MOONBEAM]: '0x011E52E4E40CF9498c79273329E8827b21E2e581',
   [ChainId.KAVA]: '0xf731202A3cf7EfA9368C2d7bD613926f7A144dB5',
   [ChainId.METIS]: '0x1334c8e873E1cae8467156e2A81d1C8b566B2da1',
+  [ChainId.BOBA]: '0x75f52766a6a23f736edefcd69dfbe6153a48c3f3',
 };
 
 export const MINICHEF_SUBGRAPH: { [chainId: number]: string } = {
@@ -107,6 +111,7 @@ export const MINICHEF_SUBGRAPH: { [chainId: number]: string } = {
   [ChainId.MOONBEAM]: 'https://api.thegraph.com/subgraphs/name/sushiswap/moonbeam-minichef',
   [ChainId.KAVA]: 'https://pvt.graph.kava.io/sushiswap/kava-minichef',
   [ChainId.METIS]: 'https://andromeda.thegraph.metis.io/subgraphs/name/sushiswap/metis-minichef',
+  [ChainId.BOBA]: 'https://api.thegraph.com/subgraphs/name/sushiswap/minichef-boba',
 };
 
 export const MULTICALL: { [chainId: number]: string } = {
@@ -122,6 +127,7 @@ export const MULTICALL: { [chainId: number]: string } = {
   [ChainId.MOONBEAM]: '0xcA11bde05977b3631167028862bE2a173976CA11',
   [ChainId.KAVA]: '0x30A62aA52Fa099C4B227869EB6aeaDEda054d121',
   [ChainId.METIS]: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  [ChainId.BOBA]: '0xcA11bde05977b3631167028862bE2a173976CA11',
 };
 
 export const QUERY = gql`
