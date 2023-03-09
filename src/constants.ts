@@ -36,6 +36,7 @@ export enum ChainId {
   KAVA = 2222,
   METIS = 1088,
   BOBA = 288,
+  BTTC = 199,
 }
 
 export const SUSHI_ADDRESS: { [chainId: number]: string } = {
@@ -64,6 +65,8 @@ export const SUSHI_ADDRESS: { [chainId: number]: string } = {
   [ChainId.KAVA]: '0x7C598c96D02398d89FbCb9d41Eab3DF0C16F227D',
   [ChainId.METIS]: '0x17Ee7E4dA37B01FC1bcc908fA63DF343F23B4B7C',
   [ChainId.BOBA]: '0x5ffccc55c0d2fd6d3ac32c26c020b3267e933f1b',
+  [ChainId.OPTIMISM]: '0x3eaeb77b03dbc0f6321ae1b72b2e9adb0f60112b',
+  [ChainId.BTTC]: '0x53c56ece35f8cab135e13d6d00499dfc7c07a92e',
 };
 
 export const RPC: { [chainId: number]: string } = {
@@ -80,6 +83,8 @@ export const RPC: { [chainId: number]: string } = {
   [ChainId.KAVA]: 'https://evm.kava.io',
   [ChainId.METIS]: 'https://andromeda.metis.io/?owner=1088',
   [ChainId.BOBA]: 'https://mainnet.boba.network',
+  [ChainId.OPTIMISM]: 'https://mainnet.optimism.io',
+  [ChainId.BTTC]: 'https://rpc.bittorrentchain.io',
 };
 
 export const MINICHEF_ADDRESS: { [chainId: number]: string } = {
@@ -96,6 +101,8 @@ export const MINICHEF_ADDRESS: { [chainId: number]: string } = {
   [ChainId.KAVA]: '0xf731202A3cf7EfA9368C2d7bD613926f7A144dB5',
   [ChainId.METIS]: '0x1334c8e873E1cae8467156e2A81d1C8b566B2da1',
   [ChainId.BOBA]: '0x75f52766a6a23f736edefcd69dfbe6153a48c3f3',
+  [ChainId.OPTIMISM]: '0xb25157bf349295a7cd31d1751973f426182070d6',
+  [ChainId.BTTC]: '0xc09756432dad2ff50b2d40618f7b04546dd20043',
 };
 
 export const MINICHEF_SUBGRAPH: { [chainId: number]: string } = {
@@ -112,6 +119,8 @@ export const MINICHEF_SUBGRAPH: { [chainId: number]: string } = {
   [ChainId.KAVA]: 'https://pvt.graph.kava.io/sushiswap/kava-minichef',
   [ChainId.METIS]: 'https://andromeda.thegraph.metis.io/subgraphs/name/sushiswap/metis-minichef',
   [ChainId.BOBA]: 'https://api.thegraph.com/subgraphs/name/sushiswap/minichef-boba',
+  [ChainId.OPTIMISM]: 'https://api.thegraph.com/subgraphs/name/sushiswap/minichef-optimism',
+  [ChainId.BTTC]: 'https://subgraphs.sushi.com/subgraphs/name/sushiswap/minichef-bttc',
 };
 
 export const MULTICALL: { [chainId: number]: string } = {
@@ -128,6 +137,8 @@ export const MULTICALL: { [chainId: number]: string } = {
   [ChainId.KAVA]: '0x30A62aA52Fa099C4B227869EB6aeaDEda054d121',
   [ChainId.METIS]: '0xcA11bde05977b3631167028862bE2a173976CA11',
   [ChainId.BOBA]: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  [ChainId.OPTIMISM]: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  [ChainId.BTTC]: '0x3D80B2f148F22Ec150A5dA78e86f479dc1E34b9F',
 };
 
 export const QUERY = gql`
